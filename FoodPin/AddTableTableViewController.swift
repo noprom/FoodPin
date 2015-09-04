@@ -75,8 +75,8 @@ class AddTableTableViewController: UITableViewController, UIImagePickerControlle
             return
         }
         
-        if let managedObjectContext = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext {
-            restaurant = NSEntityDescription.insertNewObjectForEntityForName("Restaurant", inManagedObjectContext: managedObjectContext) as Restaurant
+        if let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext {
+            restaurant = NSEntityDescription.insertNewObjectForEntityForName("Restaurant", inManagedObjectContext: managedObjectContext) as! Restaurant
             restaurant.name = txtName.text
             restaurant.type = txtType.text
             restaurant.location = txtLocation.text
@@ -103,7 +103,7 @@ class AddTableTableViewController: UITableViewController, UIImagePickerControlle
     
     @IBAction func btnClicked(sender: AnyObject) {
         
-        let buttonClicked = sender as UIButton
+        let buttonClicked = sender as! UIButton
         if buttonClicked == btnYes {
             isVisited = true
             btnYes.backgroundColor = UIColor(red: 235.0/255.0, green: 73.0/255.0, blue: 27.0/255.0, alpha: 1.0)

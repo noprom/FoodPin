@@ -32,7 +32,7 @@ class MapViewController: UIViewController,MKMapViewDelegate {
             }
             
             if placemarks != nil && placemarks.count > 0 {
-                let placemark = placemarks[0] as CLPlacemark
+                let placemark = placemarks[0] as! CLPlacemark
                 let annotation = MKPointAnnotation()
                 annotation.title = self.restaurant.name
                 annotation.subtitle = self.restaurant.type

@@ -46,12 +46,12 @@ class RestaurantTableViewController: UITableViewController, NSFetchedResultsCont
         let sortDescription = NSSortDescriptor(key: "name", ascending: true)
         fetchRequest.sortDescriptors = [sortDescription]
         
-        if let managedObjectContext = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext {
+        if let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext {
             fetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
             fetchResultsController.delegate = self
             var e:NSError?
             var result = fetchResultsController.performFetch(&e)
-            restaurants = fetchResultsController.fetchedObjects as [Restaurant]
+            restaurants = fetchResultsController.fetchedObjects as! [Restaurant]
             if result != true {
                 println(e?.localizedDescription)
             }
@@ -110,7 +110,7 @@ class RestaurantTableViewController: UITableViewController, NSFetchedResultsCont
             tableView.reloadData()
         }
         
-        restaurants = controller.fetchedObjects as [Restaurant]
+        restaurants = controller.fetchedObjects as! [Restaurant]
     }
     
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
@@ -171,8 +171,8 @@ class RestaurantTableViewController: UITableViewController, NSFetchedResultsCont
                     title: "Delete",handler: { (action:UITableViewRowAction!, indexPath:NSIndexPath!) -> Void in
                     // Delete the row from the data source
                         
-                        if let managedObjectContext = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext {
-                            let restaurantToDelete = self.fetchResultsController.objectAtIndexPath(indexPath) as Restaurant
+                        if let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext {
+                            let restaurantToDelete = self.fetchResultsController.objectAtIndexPath(indexPath) as! Restaurant
                             managedObjectContext.deleteObject(restaurantToDelete)
                             var error:NSError?
                             if managedObjectContext.save(&error) != true {
@@ -190,7 +190,7 @@ class RestaurantTableViewController: UITableViewController, NSFetchedResultsCont
     
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as CustomTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! CustomTableViewCell
         let restaurant = (searchController.active) ? searchResults[indexPath.row] : restaurants[indexPath.row]
         cell.nameLabel.text = restaurant.name
         cell.typeLabel.text = restaurant.type
@@ -205,7 +205,7 @@ class RestaurantTableViewController: UITableViewController, NSFetchedResultsCont
     // MARK: - nav
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showRestaurantDetail" {
-            let destinationController = segue.destinationViewController as DetailViewController
+            let destinationController = segue.destinationViewController as! DetailViewController
             //destinationController.hidesBottomBarWhenPushed = true
             let indexPath = tableView.indexPathForSelectedRow()!
             let restaurant = (searchController.active) ? searchResults[indexPath.row] : restaurants[indexPath.row]
